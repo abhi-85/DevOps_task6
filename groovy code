@@ -1,0 +1,47 @@
+job("job1-github") {
+    steps {
+    scm {
+          github("abhi-85/DevOps_task6", "master")
+        }
+    triggers {
+          scm("* * * * *")
+        }
+    shell("sudo cp -rvf * /groovy")
+    if(shell("ls /groovy/ | grep html")) {
+          dockerBuilderPublisher {
+                dockerFileDirectory("/groovy/")
+                cloud("docker")
+    tagsString("server:v1")
+                pushOnSuccess(true)
+
+                fromRegistry {
+                      url("abhi-85")
+                      credentialsId("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+                }
+                pushCredentialsId("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+                cleanImages(false)
+                cleanupWithJenkinsJobDelete(false)
+                noCache(false)
+                pull(true)
+          }
+    }
+    else {
+          dockerBuilderPublisher {
+                dockerFileDirectory("/groovy/")
+                cloud("docker")
+    tagsString("web-html:v1")
+                pushOnSuccess(true)
+
+                fromRegistry {
+                      url("abhi-85")
+                      credentialsId("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+                }
+                pushCredentialsId("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+                cleanImages(false)
+                cleanupWithJenkinsJobDelete(false)
+                noCache(false)
+                pull(true)
+          }
+    }
+    }
+    }

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+     kind: Deployment
+     metadata:
+       name: web-deployment
+         labels:
+           app: web
+     spec:
+       replicas: 3
+         selector:
+           matchLabels:
+             app: server
+         template:
+           metadata:
+             name: web-deployment
+             labels:
+               app: server
+           spec:
+             containers:
+             - name: deployment-server
+               image: abhi-web:v1
+               imagePullPolicy: IfNotPresent
+        
+             volumeMounts:
+             - mountPath: "/var/log/httpd"
+               name: pvc-storage
+           volumes:
+           - name: pvc-storage
+             persistentVolumeClaim:
+               claimname: html-pvc

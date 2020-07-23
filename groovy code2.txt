@@ -1,0 +1,21 @@
+  job("pod-deploy") {
+
+
+  triggers {
+    upstream {
+      upstreamProjects("job1-github")
+      threshold("SUCCESS")
+    }  
+  }
+
+
+  steps {
+    if(shell("ls /groovy | grep html")) {
+
+
+      shell("if sudo kubectl get pv html-pv; then if sudo kubectl get pvc  html-pvc; then echo "alreaday there"; else kubectl create -f pvc-storage.yml; fi; else sudo kubectl create -f htmlpv.yml; sudo kubectl create -f pvc-storage.yml; fi; if sudo kubectl get deployments web-deployment ; then sudo kubectl rollout restart deployment/web-deployment ; sudo kubectl rollout status deployment/web-deployment; else sudo kubectl create -f deploy.yml; sudo kubectl create -f expose.yml; sudo kubectl get all; fi")       
+  }
+
+    
+  }
+}
