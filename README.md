@@ -59,19 +59,19 @@ CMD java -jar /usr/lib/jenkins/jenkins.war
   -- docker run -it -p 3000:8080 --name dev_task task6:v1
   
 4. Creating persistent volume fot the deployment.
-   apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: html-pv
-      labels:
-        type: local
-    spec:
-      storageClassName: manual
-      capacity:
-        storage: 3Gi
-      accessModes:
+apiVersion: v1
+ kind: PersistentVolume
+ metadata:
+   name: html-pv
+   labels:
+     type: local
+   spec:
+     storageClassName: manual
+     capacity:
+       storage: 3Gi
+     accessModes:
         - ReadWriteOnce
-      hostPath:
+     hostPath:
         path: "/mnt/sdr/data/website"
  
 5. Creating PVC for storing permanent data.
